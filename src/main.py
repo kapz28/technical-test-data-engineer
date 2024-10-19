@@ -4,7 +4,7 @@ from datetime import datetime
 import config
 import argparse
 import sqlite3
-from database.sql_commands import CREATE_TABLE_COMMANDS
+from database import CREATE_TABLE_COMMANDS
 from data_processing import process_songs, process_users, process_listening_history
 from api_interact import fetch_all_data_types
 
