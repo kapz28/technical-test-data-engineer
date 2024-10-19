@@ -1,4 +1,5 @@
 # __init__.py
+from .database import init_database
 
 from .sql_commands import (
     CREATE_SONGS_TABLE,
@@ -22,4 +23,5 @@ __all__ = [
     'INSERT_LISTENING_HISTORY',
     'UPDATE_METADATA',
     'CREATE_TABLE_COMMANDS'
+    'init_database'
 ]
