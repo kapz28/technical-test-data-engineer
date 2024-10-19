@@ -1,0 +1,1 @@
+from .api_interaction import fetch_all_data_types

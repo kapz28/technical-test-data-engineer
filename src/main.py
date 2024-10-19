@@ -1,15 +1,12 @@
-import requests
 import schedule
 import time
 from datetime import datetime
 import config
-import os
 import argparse
-import json
 import sqlite3
-from sql_commands import CREATE_TABLE_COMMANDS
+from database.sql_commands import CREATE_TABLE_COMMANDS
 from data_processing import process_songs, process_users, process_listening_history
-from api_interaction import fetch_all_data_types
+from api_interact import fetch_all_data_types
 
 def init_database():
     conn = sqlite3.connect(config.DATABASE_NAME)
