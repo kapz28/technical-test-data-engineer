@@ -1,9 +1,10 @@
-from classes_out import ListenHistoryOut, TracksOut, UsersOut
+from .classes_out import ListenHistoryOut, TracksOut, UsersOut
 from fastapi import FastAPI, Query
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import RedirectResponse
 from fastapi_pagination import Page, add_pagination, paginate
-from generate_fake_data import FakeDataGenerator
+from .generate_fake_data import FakeDataGenerator
+import uvicorn
 
 Page = Page.with_custom_options(
     size=Query(100, ge=1, le=100),
@@ -52,3 +53,10 @@ async def get_listen_history() -> Page[ListenHistoryOut]:
 
 
 add_pagination(app)
+
+def start_server():
+    """Entry point for the server startup."""
+    uvicorn.run("moovitamix_fastapi.main:app", host="0.0.0.0", port=8000, reload=True)
+
+if __name__ == "__main__":
+    start_server()

@@ -1,5 +1,5 @@
 import sqlite3
-import config
+from kap_moovita_mix_pipeline import config
 from .sql_commands import CREATE_TABLE_COMMANDS
 
 def init_database():

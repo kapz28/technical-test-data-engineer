@@ -3,7 +3,7 @@
 import json
 from datetime import datetime
 from typing import List, Dict, Any
-from database import INSERT_SONG, INSERT_USER, INSERT_LISTENING_HISTORY, UPDATE_METADATA
+from kap_moovita_mix_pipeline.database.sql_commands import INSERT_SONG, INSERT_USER, INSERT_LISTENING_HISTORY, UPDATE_METADATA
 
 def process_songs(cursor: Any, songs: Dict[str, Any]) -> None:
     """

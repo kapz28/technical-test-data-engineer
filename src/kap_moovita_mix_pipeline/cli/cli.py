@@ -1,5 +1,5 @@
 import argparse
-import config
+from kap_moovita_mix_pipeline import config
 
 def setup_cli():
     """
