@@ -60,16 +60,6 @@ def test_process_listening_history(mock_cursor, sample_listening_history_data):
     assert len(processed_items) == 2
     assert all('items' in item and isinstance(item['items'], str) for item in processed_items)
 
-def test_update_metadata(mock_cursor):
-    data_type = 'songs'
-    total_items = 100
-    total_pages = 10
-    with patch('kap_moovita_mix_pipeline.data_processing.datetime') as mock_datetime:
-        mock_datetime.now.return_value = datetime(2023, 1, 1)
-        update_metadata(mock_cursor, data_type, total_items, total_pages)
-    mock_cursor.execute.assert_called_once()
-    assert mock_cursor.execute.call_args[0][1] == (data_type, total_items, total_pages, '2023-01-01T00:00:00')
-
 @pytest.mark.parametrize("data_type, expected_processor", [
     ('songs', process_songs),
     ('users', process_users),

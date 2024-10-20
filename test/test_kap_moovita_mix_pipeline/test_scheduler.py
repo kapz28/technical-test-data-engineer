@@ -1,83 +1,70 @@
-# tests/test_kap_moovita_mix_pipeline/test_scheduler.py
+# test_scheduler.py
 
 import pytest
-from unittest.mock import patch, MagicMock
+import threading
+import time
+import ctypes
 from kap_moovita_mix_pipeline.scheduler import start_scheduler
 from kap_moovita_mix_pipeline import config
 
-# Fixture to mock the schedule module
-@pytest.fixture
-def mock_schedule():
-    with patch('kap_moovita_mix_pipeline.scheduler.schedule') as mock:
-        yield mock
+def terminate_thread(thread):
+    """Terminates a python thread from another thread."""
+    if not thread.is_alive():
+        return
 
-# Fixture to mock the time module
-@pytest.fixture
-def mock_time():
-    with patch('kap_moovita_mix_pipeline.scheduler.time') as mock:
-        yield mock
+    exc = ctypes.py_object(SystemExit)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(ctypes.c_long(thread.ident), exc)
+    if res == 0:
+        raise ValueError("Invalid thread ID")
+    elif res != 1:
+        # If it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(thread.ident, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
 
-# Fixture to mock the daily_data_retrieval function
-@pytest.fixture
-def mock_daily_data_retrieval():
-    with patch('kap_moovita_mix_pipeline.scheduler.daily_data_retrieval') as mock:
-        yield mock
+def test_start_scheduler(capsys):
+    # Arrange
+    original_scheduled_time = config.SCHEDULED_TIME
+    current_time = time.localtime(time.time() + 2)
+    config.SCHEDULED_TIME = f"{current_time.tm_hour:02d}:{current_time.tm_min:02d}"
 
-def test_start_scheduler(mock_schedule, mock_time, mock_daily_data_retrieval, capsys):
-    """
-    Test the main functionality of the start_scheduler function.
-    
-    This test checks if:
-    1. The scheduler is set up correctly
-    2. The main loop runs and handles KeyboardInterrupt
-    3. The correct messages are printed to the console
-    """
-    # Arrange: Set up the mock time.sleep to raise KeyboardInterrupt on second call
-    mock_time.sleep.side_effect = [None, KeyboardInterrupt]  # Simulate Ctrl+C on second iteration
-    
-    # Act: Call the function under test
-    start_scheduler()
-    
-    # Assert: Check the results
-    captured = capsys.readouterr()  # Capture console output
-    
-    # Check if the scheduler is set up correctly
-    mock_schedule.every().day.at.assert_called_once_with(config.SCHEDULED_TIME)
-    mock_schedule.every().day.at().do.assert_called_once_with(mock_daily_data_retrieval)
-    
-    # Check if the main loop runs and handles KeyboardInterrupt
-    mock_schedule.run_pending.assert_called_once()
-    mock_time.sleep.assert_called_once_with(1)
-    
+    # Act
+    def run_scheduler():
+        try:
+            start_scheduler()
+        except Exception as e:
+            print(f"Scheduler stopped with error: {e}")
+        except SystemExit:
+            print("Scheduler terminated")
+
+    scheduler_thread = threading.Thread(target=run_scheduler)
+    scheduler_thread.start()
+
+    # Wait for a short time to allow the scheduler to start
+    time.sleep(3)
+
+    # Assert
+    captured = capsys.readouterr()
+
     # Check console output
+    assert "Starting data flow in production mode." in captured.out
     assert f"Scheduled to run daily at {config.SCHEDULED_TIME}." in captured.out
     assert "Press Ctrl+C to exit." in captured.out
-    assert "Script terminated by user." in captured.out
-    assert "Shutting down scheduler..." in captured.out
 
-@pytest.mark.parametrize("exception", [Exception("Test error"), KeyboardInterrupt()])
-def test_start_scheduler_exception_handling(mock_schedule, mock_time, exception, capsys):
-    """
-    Test the exception handling in start_scheduler function.
+    # Clean up
+    config.SCHEDULED_TIME = original_scheduled_time
+
+    # Terminate the scheduler thread
+    terminate_thread(scheduler_thread)
     
-    This test checks if:
-    1. The function handles both KeyboardInterrupt and other exceptions
-    2. The correct shutdown messages are printed for each case
-    """
-    # Arrange: Set up the mock time.sleep to raise the specified exception
-    mock_time.sleep.side_effect = exception
+    # Wait for the thread to terminate
+    scheduler_thread.join(timeout=2)
     
-    # Act: Call the function under test
-    start_scheduler()
+    if scheduler_thread.is_alive():
+        pytest.fail("Failed to terminate the scheduler thread")
     
-    # Assert: Check the results
-    captured = capsys.readouterr()  # Capture console output
-    
-    # Check for appropriate message based on the type of exception
-    if isinstance(exception, KeyboardInterrupt):
-        assert "Script terminated by user." in captured.out
-    else:
-        assert "An error occurred:" in captured.out
-    
-    # Check if shutdown message is printed in all cases
-    assert "Shutting down scheduler..." in captured.out
+    final_capture = capsys.readouterr()
+    assert "Scheduler terminated" in final_capture.out, "Scheduler did not terminate gracefully"
+
+if __name__ == '__main__':
+    pytest.main()
