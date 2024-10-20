@@ -27,6 +27,8 @@ dependencies = [
     "fastapi==0.115.2",
     "fastapi-pagination==0.12.31",
     "h11==0.14.0",
+    "httpcore==1.0.6",
+    "httpx==0.27.2",
     "idna==3.10",
     "iniconfig==2.0.0",
     "packaging==24.1",

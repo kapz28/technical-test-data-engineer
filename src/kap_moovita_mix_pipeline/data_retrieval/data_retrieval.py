@@ -1,8 +1,8 @@
 from datetime import datetime
 import sqlite3
-from kap_moovita_mix_pipeline import config
-from kap_moovita_mix_pipeline.api_interact import fetch_all_data_types
-from kap_moovita_mix_pipeline.data_processing import process_songs, process_users, process_listening_history
+from .. import config
+from ..api_interact import fetch_all_data_types
+from ..data_processing import process_songs, process_users, process_listening_history
 
 def daily_data_retrieval():
     """

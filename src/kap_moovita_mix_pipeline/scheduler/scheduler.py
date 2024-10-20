@@ -1,7 +1,7 @@
 import schedule
 import time
-from kap_moovita_mix_pipeline import config
-from kap_moovita_mix_pipeline.data_retrieval import daily_data_retrieval
+from .. import config
+from ..data_retrieval import daily_data_retrieval
 
 def start_scheduler():
     """

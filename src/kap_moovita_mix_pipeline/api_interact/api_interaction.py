@@ -2,7 +2,7 @@
 
 import requests
 from typing import Dict, Any, Optional
-from kap_moovita_mix_pipeline import config
+from .. import config 
 
 class APIClient:
     def __init__(self, base_url: str = config.BASE_URL):

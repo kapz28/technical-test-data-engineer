@@ -1,8 +1,8 @@
 import argparse
-from kap_moovita_mix_pipeline.database import init_database
-from kap_moovita_mix_pipeline.scheduler import start_scheduler
-from kap_moovita_mix_pipeline.data_retrieval import daily_data_retrieval
-from kap_moovita_mix_pipeline.cli import setup_cli, display_config_help, display_current_config
+from .database import init_database
+from .scheduler import start_scheduler
+from .data_retrieval import daily_data_retrieval
+from .cli import setup_cli, display_config_help, display_current_config
 
 def main():
     """

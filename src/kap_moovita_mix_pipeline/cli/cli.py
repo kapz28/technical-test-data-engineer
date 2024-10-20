@@ -1,5 +1,5 @@
 import argparse
-from kap_moovita_mix_pipeline import config
+from .. import config
 
 def setup_cli():
     """
@@ -9,7 +9,7 @@ def setup_cli():
         argparse.Namespace: Parsed command-line arguments.
     """
     # Create an ArgumentParser object with a description of the script
-    parser = argparse.ArgumentParser(description="Data retrieval script for MoovitaMix API")
+    parser = argparse.ArgumentParser(description="Kapilan's Data retrieval script for MoovitaMix API")
 
     # Add command-line arguments
     parser.add_argument("--test", action="store_true", help="Run in test mode (execute data retrieval once)")

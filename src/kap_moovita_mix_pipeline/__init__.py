@@ -8,7 +8,7 @@ from .data_retrieval import daily_data_retrieval
 from .database import init_database
 from .scheduler import start_scheduler
 
-# You might want to include a version number
+# version number
 __version__ = "0.1.0"
 
 # Define what should be imported when using "from kap_moovita_mix_pipeline import *"

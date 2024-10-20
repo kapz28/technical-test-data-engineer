@@ -1,5 +1,5 @@
 # __init__.py
-from .database import init_database
+from .database_functions import init_database
 
 from .sql_commands import (
     CREATE_SONGS_TABLE,

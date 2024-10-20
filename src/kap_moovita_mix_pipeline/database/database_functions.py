@@ -1,5 +1,5 @@
 import sqlite3
-from .. import config
+from .. import config 
 from .sql_commands import CREATE_TABLE_COMMANDS
 
 def init_database():
