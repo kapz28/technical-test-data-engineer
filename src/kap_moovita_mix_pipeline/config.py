@@ -1,6 +1,8 @@
 # config.py
-
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 # Default values for configuration
 # These will be used if no environment variables are set
