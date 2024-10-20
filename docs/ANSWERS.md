@@ -94,6 +94,46 @@ DATABASE_NAME=your_custom_database_name
 ## Conception et application de base de données
 J'ai remarqué que le schéma que nous utilisons provient de la documentation API générée par FastAPI. C'est une excellente fonctionnalité de FastAPI, car elle génère automatiquement la documentation basée sur la structure de notre code et les annotations de type.
 
+```
+CREATE_SONGS_TABLE = '''
+CREATE TABLE IF NOT EXISTS songs (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    artist TEXT,
+    songwriters TEXT,
+    duration TEXT,
+    genres TEXT,
+    album TEXT,
+    created_at TEXT,
+    updated_at TEXT
+)
+'''
+
+CREATE_USERS_TABLE = '''
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    email TEXT,
+    gender TEXT,
+    favorite_genres TEXT,
+    created_at TEXT,
+    updated_at TEXT
+)
+'''
+
+CREATE_LISTENING_HISTORY_TABLE = '''
+CREATE TABLE IF NOT EXISTS listening_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    items TEXT,
+    created_at TEXT,
+    updated_at TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)
+'''
+```
+
 Actuellement, nous utilisons SQLite comme fichier de base de données de sortie. Voici quelques avantages et inconvénients que j'ai observés concernant l'utilisation de SQLite dans ce contexte :
 
 Avantages de l'utilisation de SQLite :
