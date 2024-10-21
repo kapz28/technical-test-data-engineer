@@ -1,0 +1,2 @@
+include src/kap_moovita_mix_pipeline/.env
+include src/moovitamix_fastapi/.env

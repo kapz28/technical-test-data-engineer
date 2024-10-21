@@ -61,5 +61,5 @@ where = ["src"]
 include = ["kap_moovita_mix_pipeline*", "moovitamix_fastapi*"]
 
 [tool.setuptools.package-data]
-kap_moovita_mix_pipeline = ["py.typed"]
-moovitamix_fastapi = ["py.typed"]
+kap_moovita_mix_pipeline = ["py.typed", ".env"]
+moovitamix_fastapi = ["py.typed", ".env"]
