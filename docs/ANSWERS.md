@@ -2,6 +2,8 @@
 
 ## Utilisation de la solution
 
+Vidéo de configuration et d'utilisation: https://www.loom.com/share/629a712583404547afdae7979f30bdbb?sid=c804f58d-0510-4190-81f8-201864953e52
+
 ### Dépendance
 
 - Assurez-vous d'avoir **Python 3.7 ou une version supérieure** installé sur votre système.
@@ -38,7 +40,7 @@ Avant d'exécuter le pipeline, vous pouvez définir les variables d'environnemen
 - `SCHEDULED_TIME` : L'heure à laquelle le pipeline doit s'exécuter quotidiennement (par défaut, une valeur prédéfinie `DEFAULT_SCHEDULED_TIME`)
 - `DATABASE_NAME` : Le nom du fichier de base de données (par défaut, une valeur prédéfinie `DEFAULT_DATABASE_NAME`)
 
-Vous pouvez définir ces variables dans votre shell ou créer un fichier `.env` dans le répertoire racine avec le contenu suivant :
+Vous pouvez définir ces variables dans votre shell ou créer un fichier `.env` dans le répertoire src/kap_moovita_mix_pipeline avec le contenu suivant :
 
 ```
 BASE_URL=your_custom_base_url

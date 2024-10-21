@@ -3,6 +3,8 @@
 
 ## Usage of the Solution
 
+Setup and Usage Video: https://www.loom.com/share/629a712583404547afdae7979f30bdbb?sid=c804f58d-0510-4190-81f8-201864953e52
+
 ### Dependency
 
 - Ensure you have **Python 3.7 or higher** installed on your system. 
@@ -45,7 +47,7 @@ Before running the pipeline, you can set the following environment variables to 
 
 -  `DATABASE_NAME`: The name of the database file (default is a predefined `DEFAULT_DATABASE_NAME`)
 
-You can set these variables in your shell or create a `.env` file in the root directory with the following content:
+You can set these variables in your shell or create a `.env` file in the src/kap_moovita_mix_pipeline directory with the following content:
 
 ```
 BASE_URL=your_custom_base_url
